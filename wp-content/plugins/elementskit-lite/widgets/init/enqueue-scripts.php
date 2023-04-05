@@ -29,17 +29,19 @@ class Enqueue_Scripts {
             'nonce'     => wp_create_nonce( 'ekit_pro' ),
         ] );
 
-        // added swiper js - elementor remove it when "Improved Asset Loading" is active
-        if(defined('ELEMENTOR_ASSETS_URL')) {
-            wp_enqueue_script(
-                'swiper',
-                ELEMENTOR_ASSETS_URL . 'lib/swiper/swiper.min.js',
-                [],
-                \ElementsKit_Lite::version(),
-				true
-            );
+        // compatibility
+        if(is_plugin_active('elementskit/elementskit.php') && version_compare(\Elementskit::version(), '3.2.0', '<=')) {
+            // added swiper js - elementor remove it when "Improved Asset Loading" is active
+            if(defined('ELEMENTOR_ASSETS_URL')) {
+                wp_enqueue_script(
+                    'swiper',
+                    ELEMENTOR_ASSETS_URL . 'lib/swiper/swiper.min.js',
+                    [],
+                    \ElementsKit_Lite::version(),
+                    true
+                );
+            }
         }
-        
 
         // added fluent form styles on the editor
         if (in_array('fluentform/fluentform.php', apply_filters('active_plugins', get_option('active_plugins')))) {
